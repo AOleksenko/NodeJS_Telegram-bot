@@ -1,8 +1,8 @@
 const TelegramBot = require('node-telegram-bot-api');
-const _ = require ('lodash'); //функция для рандома
+const _ = require ('lodash');
 const request= require('request');
 const TOKEN = 'your token'
-const fs = require('fs'); //для подключения картинки
+const fs = require('fs');
 const bot = new TelegramBot(TOKEN, {
     polling: true
 });
@@ -38,12 +38,10 @@ bot.onText(/\/a/, msg => {
  sendGreeting(msg,false);
 });
 
-//прослушка на простое сообщение
 bot.on('message', msg => {
- //свич позволяет нам понять к какой кнопке обращаются
- 	switch (msg.text){ //в данном поле из-за текст хранится,тот текст который отправил пользователь
+ 	switch (msg.text){
  		case KB.picture:
- 			sendPictureScreen(msg.chat.id); //при нажатии на картинки, будет раюотать эта функция
+ 			sendPictureScreen(msg.chat.id);
  			break
  		case KB.currency:
  			newQuestion(msg);
@@ -53,7 +51,7 @@ bot.on('message', msg => {
  			break
  		case KB.car:
  		case KB.cat:
- 		sendPictureByName (msg.chat.id, msg.text) //мсдж текст позволяет нам показать,на какую именно кнопку мы указываем
+ 		sendPictureByName (msg.chat.id, msg.text) 
  			break
  	}
  });
@@ -91,7 +89,7 @@ function sendPictureScreen (chatId){
 }
 
  function sendPictureByName(chatId,picName){
- 	const srcs= PicScrs[picName] //пикнейм эта как раз,название или котика или машины
+ 	const srcs= PicScrs[picName]
  	const src= srcs[_.random(0,srcs.length - 1)] 
  	bot.sendMessage(chatId, `Загружаю...`)
 	 fs.readFile(`${__dirname}/picture/${src}`, (error,picture)=>{
